@@ -1,12 +1,15 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
-    id ("com.github.johnrengelman.shadow")
+    id("com.github.johnrengelman.shadow")
+    id("io.freefair.lombok")
 }
 
 dependencies {
-    implementation ("com.google.guava:guava")
-    implementation ("org.projectlombok:lombok")
+    implementation("com.google.guava:guava")
+    implementation("org.projectlombok:lombok")
+    implementation("ch.qos.logback:logback-classic")
+    implementation("org.slf4j:slf4j-api")
 }
 
 tasks {

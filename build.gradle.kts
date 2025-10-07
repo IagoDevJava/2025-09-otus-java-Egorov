@@ -28,6 +28,7 @@ allprojects {
     val j2objcAnnotations: String by project
     val redisson: String by project
     val lombokVersion: String by project
+    val logbackClassic: String by project
 
     apply(plugin = "io.spring.dependency-management")
     dependencyManagement {
@@ -46,6 +47,7 @@ allprojects {
             dependency("com.google.j2objc:j2objc-annotations:$j2objcAnnotations")
             dependency("org.redisson:redisson:$redisson")
             dependency("org.projectlombok:lombok:$lombokVersion")
+            dependency("ch.qos.logback:logback-classic:$logbackClassic")
         }
     }
 
