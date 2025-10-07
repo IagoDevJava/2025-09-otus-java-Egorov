@@ -1,7 +1,9 @@
-# Примеры для курса OTUS ["Разработчик Java"](https://otus.ru/lessons/java-professional/?utm_source=github&utm_medium=free&utm_campaign=otus)
+# Домашние задания 
+### Егоров Иван, 
+### группа 2025-09
+### курс OTUS ["Разработчик Java"](https://otus.ru/lessons/java-professional/?utm_source=github&utm_medium=free&utm_campaign=otus)
 
-
-Группа 2025-09
+________________________________________________
 
 ### Преподаватели
 Сергей Петрелевич<br>
@@ -9,3 +11,6 @@
 Александр Оруджев<br>
 Вячеслав Лапин<br>
 Евгений Непомнящий
+____________________________
+
+ДЗ №1 ["Проект gradle с модульной структурой"](https://github.com/IagoDevJava/2025-09-otus-java-Egorov/pull/1)

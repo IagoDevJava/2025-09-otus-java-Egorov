@@ -6,6 +6,7 @@ plugins {
 
 dependencies {
     implementation ("com.google.guava:guava")
+    implementation ("org.projectlombok:lombok")
 }
 
 tasks {
