@@ -1,5 +1,6 @@
 rootProject.name = "2025-09-otus-java-Egorov"
 include("hw01-gradle")
+include("hw04-collections")
 
 pluginManagement {
     val jgitver: String by settings
