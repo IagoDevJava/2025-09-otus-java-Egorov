@@ -27,3 +27,4 @@ pluginManagement {
     }
 }
 include("hw05-byte-code")
+include("hw05-gc")
