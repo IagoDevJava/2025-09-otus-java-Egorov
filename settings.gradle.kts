@@ -1,6 +1,7 @@
 rootProject.name = "2025-09-otus-java-Egorov"
 include("hw01-gradle")
-include("hw04-collections")
+include("hw02-collections")
+include("hw-03-tests")
 
 pluginManagement {
     val jgitver: String by settings
@@ -25,3 +26,4 @@ pluginManagement {
         id("io.freefair.lombok") version lombokPluginVersion
     }
 }
+include("hw05-byte-code")

@@ -10,7 +10,7 @@ java {
 }
 
 dependencies {
-    implementation("org.projectlombok:lombok:1.18.30")
+    implementation("org.projectlombok:lombok:1.18.42")
     implementation("ch.qos.logback:logback-classic")
 }
 
