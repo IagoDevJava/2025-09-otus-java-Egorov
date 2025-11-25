@@ -28,3 +28,4 @@ pluginManagement {
 }
 include("hw05-byte-code")
 include("hw05-gc")
+include("hw07-ATM")
