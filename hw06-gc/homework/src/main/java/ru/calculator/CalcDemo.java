@@ -17,12 +17,12 @@ public class CalcDemo {
     private static final Logger log = LoggerFactory.getLogger(CalcDemo.class);
 
     public static void main(String[] args) {
-        long counter = 250_000_000;
-        var summator = new Summator();
+        long counter = 500_000_000;
+        var summator = new SummatorOpt();
         long startTime = System.currentTimeMillis();
 
         for (var idx = 0; idx < counter; idx++) {
-            var data = new Data(idx);
+            var data = new DataOpt(idx);
             summator.calc(data);
 
             if (idx % 10_000_000 == 0) {
