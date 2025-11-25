@@ -1,7 +1,10 @@
 rootProject.name = "2025-09-otus-java-Egorov"
 include("hw01-gradle")
 include("hw02-collections")
-include("hw-03-tests")
+include("hw03-tests")
+include("hw05-byte-code")
+include("hw06-gc")
+include("hw07-ATM")
 
 pluginManagement {
     val jgitver: String by settings
@@ -26,6 +29,6 @@ pluginManagement {
         id("io.freefair.lombok") version lombokPluginVersion
     }
 }
-include("hw05-byte-code")
-include("hw05-gc")
-include("hw07-ATM")
+
+include("hw06-gc:homework")
+findProject(":hw06-gc:homework")?.name = "homework"
