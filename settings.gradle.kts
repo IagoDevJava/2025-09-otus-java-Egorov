@@ -4,6 +4,7 @@ include("hw02-collections")
 include("hw03-tests")
 include("hw05-byte-code")
 include("hw06-gc")
+include("hw07-ATM")
 
 pluginManagement {
     val jgitver: String by settings
@@ -28,5 +29,6 @@ pluginManagement {
         id("io.freefair.lombok") version lombokPluginVersion
     }
 }
+
 include("hw06-gc:homework")
 findProject(":hw06-gc:homework")?.name = "homework"
