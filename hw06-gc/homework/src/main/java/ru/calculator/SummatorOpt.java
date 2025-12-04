@@ -2,7 +2,6 @@ package ru.calculator;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SummatorOpt {
 
@@ -12,7 +11,7 @@ public class SummatorOpt {
     private int sumLastThreeValues = 0;
     private int someValue = 0;
     // !!! эта коллекция должна остаться. Заменять ее на счетчик нельзя.
-    private final List<DataOpt> listValues = new ArrayList<>();
+    private final ArrayList<DataOpt> listValues = new ArrayList<>();
     private final SecureRandom random = new SecureRandom();
 
     // !!! сигнатуру метода менять нельзя
@@ -20,6 +19,7 @@ public class SummatorOpt {
         listValues.add(data);
         if (listValues.size() % 100_000 == 0) {
             listValues.clear();
+            listValues.trimToSize();
         }
         sum += data.getValue() + random.nextInt();
 
