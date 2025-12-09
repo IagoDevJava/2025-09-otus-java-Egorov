@@ -6,6 +6,6 @@ public class ProcessorUpperField10 implements Processor {
 
     @Override
     public Message process(Message message) {
-        return message.toBuilder().field4(message.getField10().toUpperCase()).build();
+        return message.toBuilder().field10(message.getField10().toUpperCase()).build();
     }
 }

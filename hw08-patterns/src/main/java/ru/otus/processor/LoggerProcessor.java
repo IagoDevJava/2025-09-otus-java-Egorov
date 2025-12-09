@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import ru.otus.model.Message;
 
 public class LoggerProcessor implements Processor {
+
     private static final Logger logger = LoggerFactory.getLogger(LoggerProcessor.class);
 
     private final Processor processor;
