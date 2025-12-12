@@ -18,11 +18,12 @@ public class CalcDemo {
 
     public static void main(String[] args) {
         long counter = 500_000_000;
-        var summator = new Summator();
+        var summator = new SummatorOpt();
         long startTime = System.currentTimeMillis();
 
+        var data = new DataOpt(0);
         for (var idx = 0; idx < counter; idx++) {
-            var data = new Data(idx);
+            data.setValue(idx);
             summator.calc(data);
 
             if (idx % 10_000_000 == 0) {
