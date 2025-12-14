@@ -33,3 +33,4 @@ pluginManagement {
 include("hw06-gc:homework")
 findProject(":hw06-gc:homework")?.name = "homework"
 include("hw08-patterns")
+include("hw09-io")
