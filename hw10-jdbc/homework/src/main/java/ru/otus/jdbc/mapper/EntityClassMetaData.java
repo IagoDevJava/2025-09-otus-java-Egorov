@@ -9,15 +9,15 @@ import java.util.List;
  */
 public interface EntityClassMetaData<T> {
 
-  String getName();
+    String getName();
 
-  Constructor<T> getConstructor();
+    Constructor<T> getConstructor();
 
-  // Поле Id должно определять по наличию аннотации Id
-  // Аннотацию @Id надо сделать самостоятельно
-  Field getIdField();
+    // Поле Id должно определять по наличию аннотации Id
+    // Аннотацию @Id надо сделать самостоятельно
+    Field getIdField();
 
-  List<Field> getAllFields();
+    List<Field> getAllFields();
 
-  List<Field> getFieldsWithoutId();
+    List<Field> getFieldsWithoutId();
 }

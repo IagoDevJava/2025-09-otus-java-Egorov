@@ -5,11 +5,11 @@ package ru.otus.jdbc.mapper;
  */
 public interface EntitySQLMetaData {
 
-  String getSelectAllSql();
+    String getSelectAllSql();
 
-  String getSelectByIdSql();
+    String getSelectByIdSql();
 
-  String getInsertSql();
+    String getInsertSql();
 
-  String getUpdateSql();
+    String getUpdateSql();
 }

@@ -1,7 +1,9 @@
 package ru.otus.crm.model;
 
 public class Manager {
+    @Id
     private Long no;
+
     private String label;
     private String param1;
 
