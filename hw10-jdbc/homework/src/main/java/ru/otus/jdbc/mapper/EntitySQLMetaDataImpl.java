@@ -1,51 +1,68 @@
 package ru.otus.jdbc.mapper;
 
 import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class EntitySQLMetaDataImpl implements EntitySQLMetaData {
 
-    private final EntityClassMetaData<?> entityMeta;
+  private final String selectAllSql;
+  private final String selectByIdSql;
+  private final String insertSql;
+  private final String updateSql;
 
-    public EntitySQLMetaDataImpl(EntityClassMetaData<?> entityMeta) {
-        this.entityMeta = entityMeta;
-    }
+  public EntitySQLMetaDataImpl(EntityClassMetaData<?> entityMeta) {
+    String tableName = entityMeta.getName().toLowerCase();
+    Field idField = entityMeta.getIdField();
+    String idColumnName = idField.getName().toLowerCase();
 
-    @Override
-    public String getSelectAllSql() {
-        String tableName = entityMeta.getName().toLowerCase();
-        return "SELECT * FROM " + tableName;
-    }
+    String allColumns = Stream.concat(
+            Stream.of(idField),
+            entityMeta.getFieldsWithoutId().stream()
+        )
+        .map(Field::getName)
+        .map(String::toLowerCase)
+        .collect(Collectors.joining(", "));
+    this.selectAllSql = "SELECT " + allColumns + " FROM " + tableName;
 
-    @Override
-    public String getSelectByIdSql() {
-        String tableName = entityMeta.getName().toLowerCase();
-        String idColumnName = entityMeta.getIdField().getName().toLowerCase();
-        return "SELECT * FROM " + tableName + " WHERE " + idColumnName + " = ?";
-    }
+    this.selectByIdSql =
+        "SELECT " + allColumns + " FROM " + tableName + " WHERE " + idColumnName + " = ?";
 
-    @Override
-    public String getInsertSql() {
-        String tableName = entityMeta.getName().toLowerCase();
-        String columns = entityMeta.getFieldsWithoutId().stream()
-                .map(Field::getName)
-                .map(String::toLowerCase)
-                .collect(Collectors.joining(", "));
-        String placeholders =
-                entityMeta.getFieldsWithoutId().stream().map(f -> "?").collect(Collectors.joining(", "));
-        return "INSERT INTO " + tableName + " (" + columns + ") VALUES (" + placeholders + ")";
-    }
+    var nonIdFields = entityMeta.getFieldsWithoutId();
+    String insertColumns = nonIdFields.stream()
+        .map(Field::getName)
+        .map(String::toLowerCase)
+        .collect(Collectors.joining(", "));
+    String placeholders = String.join(", ", Collections.nCopies(nonIdFields.size(), "?"));
+    this.insertSql =
+        "INSERT INTO " + tableName + " (" + insertColumns + ") VALUES (" + placeholders + ")";
 
-    @Override
-    public String getUpdateSql() {
-        String tableName = entityMeta.getName().toLowerCase();
-        String idColumnName = entityMeta.getIdField().getName().toLowerCase();
+    String setClause = nonIdFields.stream()
+        .map(Field::getName)
+        .map(name -> name.toLowerCase() + " = ?")
+        .collect(Collectors.joining(", "));
+    this.updateSql =
+        "UPDATE " + tableName + " SET " + setClause + " WHERE " + idColumnName + " = ?";
+  }
 
-        String setClause = entityMeta.getFieldsWithoutId().stream()
-                .map(Field::getName)
-                .map(name -> name.toLowerCase() + " = ?")
-                .collect(Collectors.joining(", "));
+  @Override
+  public String getSelectAllSql() {
+    return selectAllSql;
+  }
 
-        return "UPDATE " + tableName + " SET " + setClause + " WHERE " + idColumnName + " = ?";
-    }
+  @Override
+  public String getSelectByIdSql() {
+    return selectByIdSql;
+  }
+
+  @Override
+  public String getInsertSql() {
+    return insertSql;
+  }
+
+  @Override
+  public String getUpdateSql() {
+    return updateSql;
+  }
 }
