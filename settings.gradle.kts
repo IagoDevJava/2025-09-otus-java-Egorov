@@ -34,3 +34,8 @@ include("hw06-gc:homework")
 findProject(":hw06-gc:homework")?.name = "homework"
 include("hw08-patterns")
 include("hw09-io")
+include("hw10-jdbc")
+include("hw10-jdbc:demo")
+findProject(":hw10-jdbc:demo")?.name = "demo"
+include("hw10-jdbc:homework")
+findProject(":hw10-jdbc:homework")?.name = "homework"
