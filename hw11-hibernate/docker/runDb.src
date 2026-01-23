@@ -1,0 +1,7 @@
+docker run -d `
+  --name otus-postgres `
+  -e POSTGRES_DB=demoDB `
+  -e POSTGRES_USER=usr `
+  -e POSTGRES_PASSWORD=pwd `
+  -p 5430:5432 `
+  postgres:16
