@@ -40,3 +40,4 @@ findProject(":hw10-jdbc:demo")?.name = "demo"
 include("hw10-jdbc:homework")
 findProject(":hw10-jdbc:homework")?.name = "homework"
 include("hw11-hibernate")
+include("hw12-cache")
