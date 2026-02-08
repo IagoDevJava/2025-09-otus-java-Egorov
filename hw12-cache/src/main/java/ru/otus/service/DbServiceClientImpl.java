@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.cache.HwCache;
-import ru.otus.cache.MyCache;
 import ru.otus.model.Client;
 import ru.otus.repository.DataTemplate;
 import ru.otus.sessionmanager.TransactionManager;
@@ -19,16 +18,22 @@ public class DbServiceClientImpl implements DBServiceClient {
     private final HwCache<Long, Client> cache;
     private final boolean enableCache;
 
-    public DbServiceClientImpl(TransactionManager transactionManager, DataTemplate<Client> clientDataTemplate) {
-        this(transactionManager, clientDataTemplate, true);
+    public DbServiceClientImpl(
+            TransactionManager transactionManager,
+            DataTemplate<Client> clientDataTemplate,
+            HwCache<Long, Client> cache) {
+        this(transactionManager, clientDataTemplate, true, cache);
     }
 
     public DbServiceClientImpl(
-            TransactionManager transactionManager, DataTemplate<Client> clientDataTemplate, boolean enableCache) {
+            TransactionManager transactionManager,
+            DataTemplate<Client> clientDataTemplate,
+            boolean enableCache,
+            HwCache<Long, Client> cache) {
         this.transactionManager = transactionManager;
         this.clientDataTemplate = clientDataTemplate;
         this.enableCache = enableCache;
-        this.cache = new MyCache<>();
+        this.cache = cache;
 
         if (enableCache) {
             log.info("Cache enabled for DbServiceClient");

@@ -7,6 +7,8 @@ import java.util.concurrent.TimeUnit;
 import org.hibernate.cfg.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.otus.cache.HwCache;
+import ru.otus.cache.MyCache;
 import ru.otus.dbmigrations.MigrationsExecutorFlyway;
 import ru.otus.model.Address;
 import ru.otus.model.Client;
@@ -37,8 +39,9 @@ public class DbServiceDemo {
 
         var transactionManager = new TransactionManagerHibernate(sessionFactory);
         var clientTemplate = new DataTemplateHibernate<>(Client.class);
+        HwCache<Long, Client> cache = new MyCache<>();
 
-        var dbServiceClient = new DbServiceClientImpl(transactionManager, clientTemplate);
+        var dbServiceClient = new DbServiceClientImpl(transactionManager, clientTemplate, cache);
 
         log.info("=== Часть 1: Оригинальная функциональность ===");
         runOriginalDemo(dbServiceClient);
