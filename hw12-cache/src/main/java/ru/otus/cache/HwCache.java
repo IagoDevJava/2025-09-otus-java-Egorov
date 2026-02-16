@@ -2,17 +2,17 @@ package ru.otus.cache;
 
 public interface HwCache<K, V> {
 
-    void put(K key, V value);
+  void put(K key, V value);
 
-    void remove(K key);
+  void remove(K key);
 
-    V get(K key);
+  V get(K key);
 
-    void addListener(HwListener<K, V> listener);
+  void addListener(HwListener<K, V> listener);
 
-    void removeListener(HwListener<K, V> listener);
+  void removeListener(HwListener<K, V> listener);
 
-    int size();
+  int size();
 
-    void clear();
+  void clear();
 }
