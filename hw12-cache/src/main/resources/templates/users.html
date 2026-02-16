@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователи</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        button {
+            padding: 8px 16px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .success-message {
+            color: green;
+            font-weight: bold;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            display: none;
+        }
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+<h2>Список пользователей</h2>
+
+<button onclick="loadUsers()">Обновить список</button>
+
+<div id="successMessage" class="success-message"></div>
+<div id="errorMessage" class="error-message"></div>
+
+<div id="usersTableContainer">
+    <!-- Таблица будет загружаться сюда -->
+    <table style="width: 600px">
+        <thead>
+        <tr>
+            <th style="width: 50px">ID</th>
+            <th style="width: 150px">Имя</th>
+            <th style="width: 150px">Логин</th>
+            <th style="width: 150px">Пароль</th>
+        </tr>
+        </thead>
+        <tbody>
+        <#if users??>
+        <#list users as user>
+        <tr>
+            <td>${user.id!""}</td>
+            <td>${user.name!""}</td>
+            <td>${user.login!""}</td>
+            <td>****</td>
+        </tr>
+        </#list>
+        <#else>
+        <tr>
+            <td colspan="4" style="text-align: center">Нет пользователей</td>
+        </tr>
+    </#if>
+    </tbody>
+    </table>
+</div>
+
+<h3>Создать пользователя</h3>
+<form id="createUserForm" onsubmit="createUser(event)">
+    <input type="text" id="name" placeholder="Имя" required>
+    <input type="text" id="login" placeholder="Логин" required>
+    <input type="password" id="password" placeholder="Пароль" required>
+    <button type="submit">Создать</button>
+</form>
+
+<script>
+    // Загрузка списка пользователей (только таблицы, без перезагрузки страницы)
+    function loadUsers() {
+        fetch('users/')
+            .then(response => response.text())
+            .then(html => {
+                // Парсим только таблицу из полученного HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const tableContainer = doc.getElementById('usersTableContainer');
+
+                if (tableContainer) {
+                    document.getElementById('usersTableContainer').innerHTML = tableContainer.innerHTML;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showError('Ошибка при загрузке списка пользователей');
+            });
+    }
+
+    // Создание пользователя
+    function createUser(event) {
+        event.preventDefault();
+
+        const formData = {
+            name: document.getElementById('name').value,
+            login: document.getElementById('login').value,
+            password: document.getElementById('password').value
+        };
+
+        fetch('users/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Ошибка при создании пользователя');
+            }
+            return response.json();
+        })
+        .then(data => {
+            showSuccess('Пользователь успешно создан!');
+
+            // Очищаем форму
+            document.getElementById('createUserForm').reset();
+
+            // Обновляем список пользователей
+            loadUsers();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showError(error.message || 'Ошибка при создании пользователя');
+        });
+    }
+
+    // Показать сообщение об успехе
+    function showSuccess(message) {
+        const successDiv = document.getElementById('successMessage');
+        successDiv.textContent = message;
+        successDiv.style.display = 'block';
+
+        // Скрываем через 3 секунды
+        setTimeout(() => {
+            successDiv.style.display = 'none';
+        }, 3000);
+    }
+
+    // Показать сообщение об ошибке
+    function showError(message) {
+        const errorDiv = document.getElementById('errorMessage');
+        errorDiv.textContent = message;
+        errorDiv.style.display = 'block';
+
+        // Скрываем через 5 секунд
+        setTimeout(() => {
+            errorDiv.style.display = 'none';
+        }, 5000);
+    }
+</script>
+</body>
+</html>

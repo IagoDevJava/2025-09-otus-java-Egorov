@@ -10,6 +10,13 @@ CREATE TABLE client (
     address_id BIGINT
 );
 
+CREATE TABLE users (
+    id BIGINT NOT NULL PRIMARY KEY,
+    name VARCHAR(50),
+    login VARCHAR(50),
+    password VARCHAR(50)
+);
+
 CREATE TABLE address (
     id BIGINT NOT NULL PRIMARY KEY,
     street VARCHAR(255)
