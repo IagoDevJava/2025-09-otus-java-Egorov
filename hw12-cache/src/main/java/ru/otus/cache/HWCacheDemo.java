@@ -4,29 +4,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HWCacheDemo {
-    private static final Logger logger = LoggerFactory.getLogger(HWCacheDemo.class);
 
-    public static void main(String[] args) {
-        new HWCacheDemo().demo();
-    }
+  private static final Logger logger = LoggerFactory.getLogger(HWCacheDemo.class);
 
-    private void demo() {
-        HwCache<String, Integer> cache = new MyCache<>();
+  public static void main(String[] args) {
+    new HWCacheDemo().demo();
+  }
 
-        // пример, когда Idea предлагает упростить код, при этом может появиться "спец"-эффект
-        @SuppressWarnings("java:S1604")
-        HwListener<String, Integer> listener = new HwListener<String, Integer>() {
-            @Override
-            public void notify(String key, Integer value, String action) {
-                logger.info("key:{}, value:{}, action: {}", key, value, action);
-            }
-        };
+  private void demo() {
+    HwCache<String, Integer> cache = new MyCache<>();
 
-        cache.addListener(listener);
-        cache.put("1", 1);
+    // пример, когда Idea предлагает упростить код, при этом может появиться "спец"-эффект
+    @SuppressWarnings("java:S1604")
+    HwListener<String, Integer> listener = new HwListener<String, Integer>() {
+      @Override
+      public void notify(String key, Integer value, String action) {
+        logger.info("key:{}, value:{}, action: {}", key, value, action);
+      }
+    };
 
-        logger.info("getValue:{}", cache.get("1"));
-        cache.remove("1");
-        cache.removeListener(listener);
-    }
+    cache.addListener(listener);
+    cache.put("1", 1);
+
+    logger.info("getValue:{}", cache.get("1"));
+    cache.remove("1");
+    cache.removeListener(listener);
+  }
 }

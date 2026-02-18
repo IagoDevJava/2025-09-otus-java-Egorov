@@ -26,76 +26,77 @@ import lombok.Setter;
 @Table(name = "client")
 public class Client implements Cloneable {
 
-    @Id
-    @SequenceGenerator(name = "client_gen", sequenceName = "client_seq", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_gen")
-    @Column(name = "id")
-    private Long id;
+  @Id
+  @SequenceGenerator(name = "client_gen", sequenceName = "client_seq", initialValue = 1, allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_gen")
+  @Column(name = "id")
+  private Long id;
 
-    @Column(name = "name")
-    private String name;
+  @Column(name = "name")
+  private String name;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "address_id")
-    private Address address;
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JoinColumn(name = "address_id")
+  private Address address;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "client")
-    private List<Phone> phones = new ArrayList<>();
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "client")
+  private List<Phone> phones = new ArrayList<>();
 
-    public Client(String name) {
-        this(null, name, null, new ArrayList<>());
+  public Client(String name) {
+    this(null, name, null, new ArrayList<>());
+  }
+
+  public Client(Long id, String name) {
+    this(id, name, null, new ArrayList<>());
+  }
+
+  private Client(Long id, String name, Address address, List<Phone> phones) {
+    this.id = id;
+    this.name = name;
+    this.address = address;
+    this.phones = Objects.requireNonNullElseGet(phones, ArrayList::new);
+  }
+
+  public static Client create(String name, Address address, List<Phone> phones) {
+    List<Phone> phoneList = phones == null ? new ArrayList<>() : new ArrayList<>(phones);
+    Client client = new Client(null, name, address, phoneList);
+    phoneList.forEach(phone -> phone.setClient(client));
+    return client;
+  }
+
+  @Override
+  @SuppressWarnings({"java:S2975", "java:S1182"})
+  public Client clone() {
+    Address clonedAddress =
+        this.address != null ? new Address(this.address.getId(), this.address.getStreet()) : null;
+
+    List<Phone> clonedPhones = this.phones.stream()
+        .map(p -> new Phone(p.getId(), p.getNumber()))
+        .toList();
+
+    return new Client(this.id, this.name, clonedAddress, clonedPhones);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    public Client(Long id, String name) {
-        this(id, name, null, new ArrayList<>());
+    if (!(o instanceof Client)) {
+      return false;
     }
+    Client client = (Client) o;
+    return Objects.equals(id, client.id) && Objects.equals(name, client.name);
+  }
 
-    private Client(Long id, String name, Address address, List<Phone> phones) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.phones = Objects.requireNonNullElseGet(phones, ArrayList::new);
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name);
+  }
 
-    public static Client create(String name, Address address, List<Phone> phones) {
-        List<Phone> phoneList = phones == null ? new ArrayList<>() : new ArrayList<>(phones);
-        Client client = new Client(null, name, address, phoneList);
-        phoneList.forEach(phone -> phone.setClient(client));
-        return client;
-    }
-
-    @Override
-    @SuppressWarnings({"java:S2975", "java:S1182"})
-    public Client clone() {
-        Address clonedAddress =
-                this.address != null ? new Address(this.address.getId(), this.address.getStreet()) : null;
-
-        List<Phone> clonedPhones = this.phones.stream()
-                .map(p -> new Phone(p.getId(), p.getNumber()))
-                .toList();
-
-        return new Client(this.id, this.name, clonedAddress, clonedPhones);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Client)) {
-            return false;
-        }
-        Client client = (Client) o;
-        return Objects.equals(id, client.id) && Objects.equals(name, client.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
-
-    @Override
-    public String toString() {
-        return "Client{" + "id=" + id + ", name='" + name + '\'' + ", address=" + address + ", phones=" + phones + '}';
-    }
+  @Override
+  public String toString() {
+    return "Client{" + "id=" + id + ", name='" + name + '\'' + ", address=" + address + ", phones="
+        + phones + '}';
+  }
 }
